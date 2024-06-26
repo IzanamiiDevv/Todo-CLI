@@ -1,30 +1,31 @@
-use std::fs::File;
-use std::io::{self, Read, Write};
-
-fn read_file(file_path: &str) -> io::Result<String> {
-    let mut file = File::open(file_path)?;
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)?;
-    Ok(contents)
-}
-
-fn write_file(file_path: &str, content: &str) -> io::Result<()> {
-    let mut file = File::create(file_path)?;
-    file.write_all(content.as_bytes())?;
-    Ok(())
-}
+mod modules;
+use modules::commands;
+use modules::displays;
 
 fn main() {
-    const FILE_PATH: &str = "output.txt";
-    let mut response: String = String::new();
+    const FILE_PATH: &str = "data.txt";
+    displays::print_banner();
+    println!("Welcome to my Todo Console Application Created in Rust Programming Language\nTo get started write \"h\" or \"help\" to show all the available command.");
 
-    std::io::stdin().read_line(&mut response).expect("Error");
-
-    match write_file(FILE_PATH, &response) {
-        Ok(_) => println!("Successfully wrote to {}", FILE_PATH),
-        Err(err) => eprintln!("Error writing to {}: {}", FILE_PATH, err),
+    let mut is_awake: bool = true;
+    while is_awake {
+        make_request(&mut is_awake);
     }
 
-    print!("Hello World");
 }
 
+fn make_request(awake: &mut bool) {
+    println!("Write Some Command");
+    let mut response: String = String::new();
+    std::io::stdin().read_line(&mut response).expect("Error on Reading the Response");
+    let command: &str = response.trim();
+
+    match command {
+        "show" => {commands::show()}
+        "h" | "help" => {commands::help()}
+        "exit" => {
+            *awake = false;
+        }
+        _=> {println!("Command not Found!")}
+    }
+}
