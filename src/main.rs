@@ -20,7 +20,8 @@ fn make_request(awake: &mut bool) {
     let command: &str = response.trim();
 
     match command {
-        "add" => {commands::add("Nigga")}
+        "remove" => {commands::remove()}
+        "add" => {commands::add()}
         "show" => {commands::show()}
         "h" | "help" => {commands::help()}
         "exit" => {

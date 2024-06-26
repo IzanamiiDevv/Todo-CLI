@@ -13,14 +13,6 @@ mod dataio {
         file.write_all(content.as_bytes())?;
         Ok(())
     }
-
-    fn addData(data: &str) {
-        
-    }
-
-    fn deleteData(data: &str) {
-
-    }
 }
 
 const FILE_PATH: &str = "data.txt";
@@ -32,9 +24,11 @@ pub fn help() {
 pub fn show() {
     match dataio::read_file(FILE_PATH) {
         Ok(data) => {
-            println!("+--------------+");
-            println!("{}", data);
-            println!("+--------------+");
+            if data != "" {
+                print!("+--------------+");
+                println!("{}", data);
+                println!("+--------------+");
+            }else {println!("Data is Empty")}
         }
         Err(err) => {
             eprintln!("{}", err);
@@ -42,7 +36,12 @@ pub fn show() {
     }
 }
 
-pub fn add(data: &str) {
+pub fn add() {
+    println!("Create a basic name without white space");
+    let mut response: String = String::new();
+    std::io::stdin().read_line(&mut response).expect("Error on Reading the Response");
+    let data: &str = response.trim();
+
     let mut datas: Vec<String> = Vec::new();
     match dataio::read_file(FILE_PATH) {
         Ok(old_data) => {
@@ -70,6 +69,36 @@ pub fn add(data: &str) {
     }
 }
 
-pub fn done() {
+pub fn remove() {
+    println!("What is the Data you want to Remove");
+    let mut response: String = String::new();
+    std::io::stdin().read_line(&mut response).expect("Error on Reading the Response");
+    let data: &str = response.trim();
 
+
+
+    let mut datas: Vec<String> = Vec::new();
+    match dataio::read_file(FILE_PATH) {
+        Ok(old_data) => {
+            let dt: std::str::Split<char> = old_data.split('\n');
+            for item in dt {
+                if item == data {continue}
+                datas.push(item.to_string());
+            }
+        }
+        Err(err) => {
+            eprintln!("{}", err);
+            return;
+        }
+    }
+
+    match dataio::write_file(FILE_PATH, datas.join("\n").as_str()) {
+        Ok(_) => {
+            println!("Data Successfully Removed!");
+        }
+        Err(err) => {
+            eprintln!("{}", err);
+            return;
+        }
+    }   
 }
