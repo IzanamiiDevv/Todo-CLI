@@ -3,7 +3,6 @@ use modules::commands;
 use modules::displays;
 
 fn main() {
-    const FILE_PATH: &str = "data.txt";
     displays::print_banner();
     println!("Welcome to my Todo Console Application Created in Rust Programming Language\nTo get started write \"h\" or \"help\" to show all the available command.");
 
@@ -21,6 +20,7 @@ fn make_request(awake: &mut bool) {
     let command: &str = response.trim();
 
     match command {
+        "add" => {commands::add("Nigga")}
         "show" => {commands::show()}
         "h" | "help" => {commands::help()}
         "exit" => {
