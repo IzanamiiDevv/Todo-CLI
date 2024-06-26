@@ -1,2 +1,3 @@
 # Todo-CLI
-Try to manage your work with Todo App in Console Application
+
+A Basic TODO Console Application to plan your things to set this up install rust and run cargo build and cargo run
